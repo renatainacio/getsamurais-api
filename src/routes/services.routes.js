@@ -1,15 +1,16 @@
 import { Router } from "express";
+import validateAuth from "../middlewares/validateAuth.js";
 
 const serviceRouter = Router();
 
-serviceRouter.post("/services");
+serviceRouter.post("/services", validateAuth);
 
-serviceRouter.get("/services");
+serviceRouter.get("/services", validateAuth);
 
-serviceRouter.patch("/services");
+serviceRouter.patch("/services", validateAuth);
 
-serviceRouter.put("/services");
+serviceRouter.put("/services", validateAuth);
 
-serviceRouter.delete("/services");
+serviceRouter.delete("/services", validateAuth);
 
 export default serviceRouter;
