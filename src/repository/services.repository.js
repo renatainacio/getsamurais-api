@@ -9,7 +9,7 @@ export function getServicesByEmail(email){
     return services;
 };
 
-export function getServices(){
+export function queryServices(){
     const services = db.query(`
         SELECT * 
         FROM services;

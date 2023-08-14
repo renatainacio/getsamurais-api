@@ -1,4 +1,4 @@
-import { delService, getServiceById, getServicesByEmail, insertService, putService, selectCategories } from "../repository/services.repository.js";
+import { delService, getServiceById, getServicesByEmail, insertService, putService, queryServices, selectCategories } from "../repository/services.repository.js";
 
 export async function getUserServices(req, res){
     try {
@@ -12,8 +12,17 @@ export async function getUserServices(req, res){
 export async function getCategories(req, res){
     try {
         const categories = await selectCategories();
-        res.send(categories);
+        res.send(categories.rows);
     } catch(err){
+        res.status(500).send(err.message);
+    }
+}
+
+export async function getServices(req, res){
+    try {
+        const services = await queryServices();
+        return res.send(services.rows);
+    }catch(err){
         res.status(500).send(err.message);
     }
 }
