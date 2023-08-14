@@ -1,9 +1,9 @@
-import { delService, getServiceById, getServicesByEmail, insertService, putService, queryServices, selectCategories } from "../repository/services.repository.js";
+import { delService, getServiceById, getServicesByUserId, insertService, putService, queryServices, selectCategories } from "../repository/services.repository.js";
 
 export async function getUserServices(req, res){
     try {
-        const services = await getServicesByEmail(email);
-        res.send(services);
+        const services = await getServicesByUserId(res.locals.user.id);
+        res.send(services.rows);
     } catch(err){
         res.status(500).send(err.message);
     }

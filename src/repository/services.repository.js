@@ -1,11 +1,11 @@
 import db from "../database/database.connection.js";
 
-export function getServicesByEmail(email){
+export function getServicesByUserId(userId){
     const services = db.query(`
         SELECT * 
         FROM services 
-        WHERE email=$1;
-        `, [email]);
+        WHERE "userId"=$1;
+        `, [userId]);
     return services;
 };
 
