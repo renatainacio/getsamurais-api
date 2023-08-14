@@ -47,7 +47,7 @@ export function insertService(service){
 export function putService(id, service){
     const resp = db.query(`
         UPDATE services
-        SET "userId"=$1, "categoryId"=$2, photo=$3, description=$4, price=$5, "priceUnit"=$6, status=$7)
+        SET "userId"=$1, "categoryId"=$2, photo=$3, description=$4, price=$5, "priceUnit"=$6, status=$7
         WHERE id=$8;
     `, [service.userId, service.categoryId, service.photo, service.description, service.price, service.priceUnit, service.status, id]);
     return resp;

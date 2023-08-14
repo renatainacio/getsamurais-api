@@ -44,6 +44,7 @@ export async function updateService(req, res){
     try {
         const service = await getServiceById(id);
         if (service.rows.length === 0) return res.sendStatus(404);
+        if (service.rows[0].userId !== res.locals.user.id) return res.sendStatus(401);
         await putService(id, service);
         return res.sendStatus(200);
     } catch(err){
