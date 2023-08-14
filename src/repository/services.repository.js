@@ -11,8 +11,11 @@ export function getServicesByUserId(userId){
 
 export function queryServices(){
     const services = db.query(`
-        SELECT * 
-        FROM services;
+        SELECT services.*, users.username, users.email, users.phone, users.city, users.state 
+        FROM services
+        JOIN users
+        ON services."userId"=users.id
+        WHERE services.status=true;
         `);
     return services;
 }
@@ -27,7 +30,7 @@ export function selectCategories(){
 export function getServiceById(id){
     const service = db.query(`
         SELECT *
-        FROM users
+        FROM services
         WHERE id=$1;
     `, [id]);
     return service;

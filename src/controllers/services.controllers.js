@@ -56,7 +56,9 @@ export async function deleteService(req, res){
     const { id } = req.params;
     try {
         const service = await getServiceById(id);
+        console.log(service.rows);
         if (service.rows.length === 0) return res.sendStatus(404);
+        if (service.rows[0].userId !== res.locals.user.id) return res.sendStatus(401);
         await delService(id);
         return res.sendStatus(204);
     } catch(err){
