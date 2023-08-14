@@ -1,4 +1,4 @@
-import { delService, getServiceById, getServicesByUserId, insertService, putService, queryServices, selectCategories } from "../repository/services.repository.js";
+import { delService, getServiceById, getServicesByUserId, insertService, putService, queryServices, queryServicesWParam, selectCategories } from "../repository/services.repository.js";
 
 export async function getUserServices(req, res){
     try {
@@ -29,8 +29,13 @@ export async function getCategories(req, res){
 }
 
 export async function getServices(req, res){
+    const { q } = req.query;
+    let services;
     try {
-        const services = await queryServices();
+        if (!q)
+            services = await queryServices();
+        if (q)
+            services = await queryServicesWParam(q);
         return res.send(services.rows);
     }catch(err){
         res.status(500).send(err.message);

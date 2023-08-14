@@ -20,6 +20,19 @@ export function queryServices(){
     return services;
 }
 
+export function queryServicesWParam(q){
+    const services = db.query(`
+        SELECT services.*, users.username, users.email, users.phone, users.city, users.state 
+        FROM services
+        JOIN users
+        ON services."userId"=users.id
+        WHERE services.status=true
+        AND services.description ILIKE $1;
+        `, [q]);
+    return services;
+}
+
+
 export function selectCategories(){
     const categories = db.query(`
         SELECT * FROM categories;
