@@ -1,16 +1,17 @@
 import { Router } from "express";
 import validateAuth from "../middlewares/validateAuth.js";
+import { deleteService, getCategories, postService, updateService } from "../controllers/services.controllers.js";
 
 const serviceRouter = Router();
 
-serviceRouter.post("/services", validateAuth);
+serviceRouter.get("/categories", getCategories);
+
+serviceRouter.post("/services", validateAuth, postService);
 
 serviceRouter.get("/services", validateAuth);
 
-serviceRouter.patch("/services", validateAuth);
+serviceRouter.put("/services/:id", validateAuth, updateService);
 
-serviceRouter.put("/services", validateAuth);
-
-serviceRouter.delete("/services", validateAuth);
+serviceRouter.delete("/services", validateAuth, deleteService);
 
 export default serviceRouter;

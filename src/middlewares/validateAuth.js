@@ -1,4 +1,5 @@
 import { getUserByEmail } from "../repository/users.repository.js";
+import jwt from "jsonwebtoken";
 
 export default async function validateAuth(req, res, next) {
     const authorization = req.headers.authorization;
@@ -7,7 +8,8 @@ export default async function validateAuth(req, res, next) {
   
     try {
       const session = jwt.verify(token, process.env.JWT_SECRET);
-      const user = (await getUserByEmail(email)).rows[0];
+      if (!session) return res.sendStatus(401);
+      const user = (await getUserByEmail(session.email)).rows[0];
       if (!user) return res.sendStatus(401);
       delete user.password;
       res.locals.user = user;

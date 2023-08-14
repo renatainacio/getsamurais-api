@@ -30,3 +30,7 @@ export async function signin(req, res){
         res.status(500).send(err.message);
     }
 }
+
+export function getUser(req, res){
+    return res.send(res.locals.user);
+}
