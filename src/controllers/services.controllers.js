@@ -9,6 +9,16 @@ export async function getUserServices(req, res){
     }
 }
 
+export async function getServiceId(req, res){
+    const { id } = req.params;
+    try {
+        const services = await getServiceById(id);
+        res.send(services.rows[0]);
+    } catch(err){
+        res.status(500).send(err.message);
+    }
+}
+
 export async function getCategories(req, res){
     try {
         const categories = await selectCategories();
