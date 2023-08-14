@@ -28,7 +28,7 @@ export function queryServicesWParam(q){
         ON services."userId"=users.id
         WHERE services.status=true
         AND services.description ILIKE $1;
-        `, [q]);
+        `, [`%${q}%`]);
     return services;
 }
 
