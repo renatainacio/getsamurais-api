@@ -39,12 +39,13 @@ export async function postService(req, res){
 }
 
 export async function updateService(req, res){
-    const service = req.body;
+    let service = req.body;
     const { id } = req.params;
     try {
-        const service = await getServiceById(id);
-        if (service.rows.length === 0) return res.sendStatus(404);
-        if (service.rows[0].userId !== res.locals.user.id) return res.sendStatus(401);
+        const svc = await getServiceById(id);
+        if (svc.rows.length === 0) return res.sendStatus(404);
+        if (svc.rows[0].userId !== res.locals.user.id) return res.sendStatus(401);
+        service = {...service, userId: res.locals.user.id};
         await putService(id, service);
         return res.sendStatus(200);
     } catch(err){
