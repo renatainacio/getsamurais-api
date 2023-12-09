@@ -1,3 +1,5 @@
+import { notFoundError } from '../errors/notFoundError.js';
+import { unauthorizedError } from '../errors/unauthorizedError.js';
 import {
   delService,
   getServiceById,
@@ -10,41 +12,25 @@ import {
 } from '../repository/services.repository.js';
 
 async function getUserServices(id) {
-  try {
-    const services = await getServicesByUserId(id);
-    return services.rows;
-  } catch (err) {
-    return err;
-  }
+  const services = await getServicesByUserId(id);
+  return services.rows;
 }
 
 async function getServiceId(id) {
-  try {
-    const services = await getServiceById(id);
-    return services.rows[0];
-  } catch (err) {
-    return err.message;
-  }
+  const services = await getServiceById(id);
+  return services.rows[0];
 }
 
 async function getCategories() {
-  try {
-    const categories = await selectCategories();
-    return categories.rows;
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+  const categories = await selectCategories();
+  return categories.rows;
 }
 
 async function getServices(description) {
   let services;
-  try {
-    if (!description) services = await queryServices();
-    if (description) services = await queryServicesWParam(description);
-    return services.rows;
-  } catch (err) {
-    return err.message;
-  }
+  if (!description) services = await queryServices();
+  if (description) services = await queryServicesWParam(description);
+  return services.rows;
 }
 
 async function postService(service) {
@@ -53,17 +39,15 @@ async function postService(service) {
 
 async function updateService(id, service) {
   const svc = await getServiceById(id);
-  //if (svc.rows.length === 0) return res.sendStatus(404);
-  //throw 404 error
-  //if (svc.rows[0].userId !== res.locals.user.id) return res.sendStatus(401);
-  // service = { ...service, userId: res.locals.user.id };
+  if (svc.rows.length === 0) throw notFoundError(service);
+  if (svc.rows[0].userId !== res.locals.user.id) throw unauthorizedError();
   await putService(id, service);
 }
 
 async function deleteService(id) {
   const service = await getServiceById(id);
-  //if (service.rows.length === 0) return res.sendStatus(404);
-  //if (service.rows[0].userId !== res.locals.user.id) return res.sendStatus(401);
+  if (service.rows.length === 0) throw notFoundError(service);
+  if (service.rows[0].userId !== res.locals.user.id) throw unauthorizedError();
   await delService(id);
 }
 
