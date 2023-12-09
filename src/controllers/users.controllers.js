@@ -1,15 +1,11 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import { checkIfUserAlreadyRegistered, createUser, getUserByEmail } from '../repository/users.repository.js';
+import { usersService } from '../services/users.service.js';
 
 export async function signup(req, res) {
   const { fullName, gender, username, email, cpf, phone, city, state, password, image } = req.body;
-  const hash = bcrypt.hashSync(password, 10);
   try {
-    const user = await checkIfUserAlreadyRegistered(email, cpf);
-    if (user.rows.length !== 0) return res.sendStatus(409);
+    const user = await usersService.signup(fullName, gender, username, email, cpf, phone, city, state, password, image);
     await createUser({ fullName, gender, username, email, cpf, phone, city, state, password: hash, image });
-    res.sendStatus(201);
+    res.status(201).send(user);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -18,11 +14,7 @@ export async function signup(req, res) {
 export async function signin(req, res) {
   const { email, password } = req.body;
   try {
-    const user = await getUserByEmail(email);
-    if (user.rows.length === 0) return res.sendStatus(401);
-    const correctPassword = bcrypt.compareSync(password, user.rows[0].password);
-    if (!correctPassword) return res.sendStatus(401);
-    const token = jwt.sign({ email }, process.env.JWT_SECRET);
+    const token = usersService.signin(email, password);
     res.status(200).send({ token: token });
   } catch (err) {
     res.status(500).send(err.message);
