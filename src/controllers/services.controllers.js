@@ -7,12 +7,12 @@ export async function getUserServices(req, res) {
 
 export async function getServiceId(req, res) {
   const { id } = req.params;
-  const services = servicesService.getServiceId(id);
+  const services = await servicesService.getServiceId(id);
   res.send(services);
 }
 
 export async function getCategories(req, res) {
-  const categories = servicesService.getCategories();
+  const categories = await servicesService.getCategories();
   res.send(categories);
 }
 
@@ -31,8 +31,10 @@ export async function postService(req, res) {
 
 export async function updateService(req, res) {
   const { id } = req.params;
-  const service = { ...service, userId: res.locals.user.id };
-  await servicesService.updateService(id, service);
+  let service = req.body;
+  const userId = res.locals.user.id;
+  service = { ...service, userId: res.locals.user.id };
+  await servicesService.updateService(id, service, userId);
   return res.sendStatus(200);
 }
 

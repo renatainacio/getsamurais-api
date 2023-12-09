@@ -8,7 +8,18 @@ async function signup(fullName, gender, username, email, cpf, phone, city, state
   const hash = bcrypt.hashSync(password, 10);
   const user = await usersRepository.checkIfUserAlreadyRegistered(email, cpf);
   if (user.rows.length !== 0) throw conflictError();
-  await usersRepository.createUser({ fullName, gender, username, email, cpf, phone, city, state, password: hash, image });
+  await usersRepository.createUser({
+    fullName,
+    gender,
+    username,
+    email,
+    cpf,
+    phone,
+    city,
+    state,
+    password: hash,
+    image,
+  });
   res.sendStatus(201);
 }
 

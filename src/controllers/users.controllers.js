@@ -9,7 +9,7 @@ export async function signup(req, res) {
 
 export async function signin(req, res) {
   const { email, password } = req.body;
-  const token = usersService.signin(email, password);
+  const token = await usersService.signin(email, password);
   res.status(200).send({ token: token });
 }
 

@@ -1,7 +1,7 @@
 import db from '../database/database.connection.js';
 
-function getServicesByUserId(userId) {
-  const services = db.query(
+async function getServicesByUserId(userId) {
+  const services = await db.query(
     `
         SELECT * 
         FROM services 
@@ -12,8 +12,8 @@ function getServicesByUserId(userId) {
   return services;
 }
 
-function queryServices() {
-  const services = db.query(`
+async function queryServices() {
+  const services = await db.query(`
         SELECT services.*, users.username, users.email, users.phone, users.city, users.state 
         FROM services
         JOIN users
@@ -23,8 +23,8 @@ function queryServices() {
   return services;
 }
 
-function queryServicesWithParams(description) {
-  const services = db.query(
+async function queryServicesWithParams(description) {
+  const services = await db.query(
     `
         SELECT services.*, users.username, users.email, users.phone, users.city, users.state 
         FROM services
@@ -38,15 +38,15 @@ function queryServicesWithParams(description) {
   return services;
 }
 
-function selectCategories() {
-  const categories = db.query(`
+async function selectCategories() {
+  const categories = await db.query(`
         SELECT * FROM categories;
     `);
   return categories;
 }
 
-function getServiceById(id) {
-  const service = db.query(
+async function getServiceById(id) {
+  const service = await db.query(
     `
         SELECT *
         FROM services
@@ -57,8 +57,8 @@ function getServiceById(id) {
   return service;
 }
 
-function postService(service) {
-  const resp = db.query(
+async function postService(service) {
+  const resp = await db.query(
     `
         INSERT INTO services ("userId", "categoryId", photo, description, price, "priceUnit", status)
         VALUES ($1, $2, $3, $4, $5, $6, $7);
@@ -68,8 +68,8 @@ function postService(service) {
   return resp;
 }
 
-function updateService(id, service) {
-  const resp = db.query(
+async function updateService(id, service) {
+  const resp = await db.query(
     `
         UPDATE services
         SET "userId"=$1, "categoryId"=$2, photo=$3, description=$4, price=$5, "priceUnit"=$6, status=$7
@@ -89,8 +89,8 @@ function updateService(id, service) {
   return resp;
 }
 
-function deleteService(id) {
-  const resp = db.query(
+async function deleteService(id) {
+  const resp = await db.query(
     `
         DELETE FROM services
         WHERE id=$1;

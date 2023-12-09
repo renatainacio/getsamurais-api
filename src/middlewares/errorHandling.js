@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 
-export function handleApplicationErrors() {
+export default function handleApplicationErrors(err, req, res, next) {
   if (err.name === 'InvalidDataError') {
     return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(err.message);
   }

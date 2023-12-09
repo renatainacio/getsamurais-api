@@ -28,10 +28,10 @@ async function postService(service) {
   await servicesRepository.postService(service);
 }
 
-async function updateService(id, service) {
+async function updateService(id, service, userId) {
   const svc = await servicesRepository.getServiceById(id);
   if (svc.rows.length === 0) throw notFoundError(service);
-  if (svc.rows[0].userId !== res.locals.user.id) throw unauthorizedError();
+  if (svc.rows[0].userId !== userId) throw unauthorizedError();
   await servicesRepository.updateService(id, service);
 }
 

@@ -1,7 +1,7 @@
 import db from '../database/database.connection.js';
 
-function checkIfUserAlreadyRegistered(email, cpf) {
-  const user = db.query(
+async function checkIfUserAlreadyRegistered(email, cpf) {
+  const user = await db.query(
     `
     SELECT * 
     FROM users 
@@ -12,8 +12,8 @@ function checkIfUserAlreadyRegistered(email, cpf) {
   return user;
 }
 
-function getUserByEmail(email) {
-  const user = db.query(
+async function getUserByEmail(email) {
+  const user = await db.query(
     `
         SELECT * 
         FROM users 
@@ -24,8 +24,8 @@ function getUserByEmail(email) {
   return user;
 }
 
-function createUser(user) {
-  const result = db.query(
+async function createUser(user) {
+  const result = await db.query(
     `
         INSERT INTO users ( "fullName", gender, username, email, cpf, phone, city, state, password, image )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
