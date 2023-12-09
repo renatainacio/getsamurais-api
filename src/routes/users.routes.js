@@ -15,6 +15,4 @@ userRouter.get('/users/me', validateAuth, getUser);
 
 userRouter.get('/users/me/services', validateAuth, getUserServices);
 
-userRouter.get('/users/:id', validateAuth);
-
 export default userRouter;
