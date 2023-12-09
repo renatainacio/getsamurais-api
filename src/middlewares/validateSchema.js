@@ -1,4 +1,4 @@
-import { invalidDataError } from '../errors/invalidDataError';
+import { invalidDataError } from '../errors/invalidDataError.js';
 
 export default function validateSchema(schema) {
   return (req, res, next) => {

@@ -1,6 +1,6 @@
 import db from '../database/database.connection.js';
 
-export function getServicesByUserId(userId) {
+function getServicesByUserId(userId) {
   const services = db.query(
     `
         SELECT * 
@@ -12,7 +12,7 @@ export function getServicesByUserId(userId) {
   return services;
 }
 
-export function queryServices() {
+function queryServices() {
   const services = db.query(`
         SELECT services.*, users.username, users.email, users.phone, users.city, users.state 
         FROM services
@@ -23,7 +23,7 @@ export function queryServices() {
   return services;
 }
 
-export function queryServicesWParam(description) {
+function queryServicesWithParams(description) {
   const services = db.query(
     `
         SELECT services.*, users.username, users.email, users.phone, users.city, users.state 
@@ -38,14 +38,14 @@ export function queryServicesWParam(description) {
   return services;
 }
 
-export function selectCategories() {
+function selectCategories() {
   const categories = db.query(`
         SELECT * FROM categories;
     `);
   return categories;
 }
 
-export function getServiceById(id) {
+function getServiceById(id) {
   const service = db.query(
     `
         SELECT *
@@ -57,7 +57,7 @@ export function getServiceById(id) {
   return service;
 }
 
-export function insertService(service) {
+function postService(service) {
   const resp = db.query(
     `
         INSERT INTO services ("userId", "categoryId", photo, description, price, "priceUnit", status)
@@ -68,7 +68,7 @@ export function insertService(service) {
   return resp;
 }
 
-export function putService(id, service) {
+function updateService(id, service) {
   const resp = db.query(
     `
         UPDATE services
@@ -89,7 +89,7 @@ export function putService(id, service) {
   return resp;
 }
 
-export function delService(id) {
+function deleteService(id) {
   const resp = db.query(
     `
         DELETE FROM services
@@ -99,3 +99,14 @@ export function delService(id) {
   );
   return resp;
 }
+
+export const servicesRepository = {
+  getServicesByUserId,
+  queryServices,
+  queryServicesWithParams,
+  selectCategories,
+  getServiceById,
+  postService,
+  updateService,
+  deleteService,
+};

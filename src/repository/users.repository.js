@@ -1,6 +1,6 @@
 import db from '../database/database.connection.js';
 
-export function checkIfUserAlreadyRegistered(email, cpf) {
+function checkIfUserAlreadyRegistered(email, cpf) {
   const user = db.query(
     `
     SELECT * 
@@ -12,7 +12,7 @@ export function checkIfUserAlreadyRegistered(email, cpf) {
   return user;
 }
 
-export function getUserByEmail(email) {
+function getUserByEmail(email) {
   const user = db.query(
     `
         SELECT * 
@@ -24,7 +24,7 @@ export function getUserByEmail(email) {
   return user;
 }
 
-export function createUser(user) {
+function createUser(user) {
   const result = db.query(
     `
         INSERT INTO users ( "fullName", gender, username, email, cpf, phone, city, state, password, image )
@@ -45,3 +45,9 @@ export function createUser(user) {
   );
   return result;
 }
+
+export const usersRepository = {
+  checkIfUserAlreadyRegistered,
+  getUserByEmail,
+  createUser,
+};
