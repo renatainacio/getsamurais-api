@@ -1,38 +1,47 @@
-import db from "../database/database.connection.js";
+import db from '../database/database.connection.js';
 
-export function checkIfUserAlreadyRegistered(email, cpf){
-    const user = db.query(`
+export function checkIfUserAlreadyRegistered(email, cpf) {
+  const user = db.query(
+    `
     SELECT * 
     FROM users 
     WHERE email=$1 OR cpf=$2;
-    `, [email, cpf]);
-    return user;
-};
+    `,
+    [email, cpf],
+  );
+  return user;
+}
 
-export function getUserByEmail(email){
-    const user = db.query(`
+export function getUserByEmail(email) {
+  const user = db.query(
+    `
         SELECT * 
         FROM users 
         WHERE email=$1;
-        `, [email]);
-    return user;
-};
+        `,
+    [email],
+  );
+  return user;
+}
 
-export function createUser(user){
-    const result = db.query(`
+export function createUser(user) {
+  const result = db.query(
+    `
         INSERT INTO users ( "fullName", gender, username, email, cpf, phone, city, state, password, image )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
-    `, [
-        user.fullName, 
-        user.gender, 
-        user.username, 
-        user.email, 
-        user.cpf, 
-        user.phone, 
-        user.city, 
-        user.state, 
-        user.password,
-        user.image
-    ]);
-    return result;
+    `,
+    [
+      user.fullName,
+      user.gender,
+      user.username,
+      user.email,
+      user.cpf,
+      user.phone,
+      user.city,
+      user.state,
+      user.password,
+      user.image,
+    ],
+  );
+  return result;
 }
